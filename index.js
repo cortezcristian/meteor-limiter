@@ -9,7 +9,9 @@ var shell = require('shelljs');
 
 program
   .version(pack.version)
-  .option('-i, --intercept', 'Listen for new processes to limit')
+  .description('Limits meteor processes CPU usage')
+  .option('-t, --time <n>', 'Time in seconds to scan. Defaults to 20')
+  .option('-c, --cpu <n>', 'Percentage of cpu allowed from 0 to 800. Defaults to 50')
   .parse(process.argv);
 
 var process_limiting = [];
@@ -21,8 +23,8 @@ process.on('uncaughtException', function(err){
 // Find Meteor Processes
 var findProcesses = function(){
   var cmd = "ps ax | grep node | grep meteor | grep -v grep | awk '{print $1}'";
-  var wait_secs = 20;
-  var cpu_limit = 50;
+  var wait_secs = parseInt(program.time) || 20;
+  var cpu_limit = parseInt(program.cpu) || 50;
 
   var child = shell.exec(cmd, function(code, stdout, stderr) {
     //console.log('Exit code:', code);
@@ -30,7 +32,7 @@ var findProcesses = function(){
     //console.log('Program stderr:', stderr);
     var pid = parseInt(stdout);
     //console.log(typeof pid);
-    if(pid === "") {
+    if(pid === "" || isNaN(pid)) {
       console.log("No process found, will try again in "+wait_secs+"s");
       setTimeout(findProcesses, 1000*wait_secs);
     } else if(process_limiting.indexOf(pid) === -1) {
