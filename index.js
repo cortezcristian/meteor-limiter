@@ -26,6 +26,10 @@ var findProcesses = function(){
   var wait_secs = parseInt(program.time) || 20;
   var cpu_limit = parseInt(program.cpu) || 50;
 
+  if(process_limiting.length > 0 ) {
+    console.log("Currently limited "+process_limiting.length+" processes");
+  }
+
   var child = shell.exec(cmd, function(code, stdout, stderr) {
     //console.log('Exit code:', code);
     //console.log('Program output:', stdout);
@@ -48,7 +52,6 @@ var findProcesses = function(){
         setTimeout(findProcesses, 1000*wait_secs);
       });
     }
-    console.log("Currently limited "+process_limiting.length+" processes");
   });
 }
 
