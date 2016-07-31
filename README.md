@@ -26,3 +26,7 @@ $ brew install cpulimit # OSX
 ```
 
 Other solution can be configuring vagrant provisioning and [vagrant-meteor](https://github.com/Sanjo/vagrant-meteor).
+
+## Credits
+[@cortezcristian](https://twitter.com/cortezcristian)
+See [LICENSE](https://github.com/cortezcristian/meteor-limiter/blob/master/LICENSE)
