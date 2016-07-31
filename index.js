@@ -22,7 +22,7 @@ process.on('uncaughtException', function(err){
 
 // Find Meteor Processes
 var findProcesses = function(){
-  var cmd = "ps ax | grep node | grep meteor | grep -v grep | awk '{print $1}'";
+  var cmd = "ps ax | grep node | grep meteor | grep -v meteor-limiter | grep -v grep | awk '{print $1}'";
   var wait_secs = parseInt(program.time) || 20;
   var cpu_limit = parseInt(program.cpu) || 50;
 
